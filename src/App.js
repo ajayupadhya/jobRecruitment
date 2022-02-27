@@ -9,21 +9,30 @@ import {
 import Login from "./pages/Login/Login";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import { connect } from "react-redux";
-function App({ isLoggedIn }) {
-  console.log(isLoggedIn);
-  const [check, setCheck] = useState(false);
+import { checkLogin } from "./redux/action/authAction";
+function App({ isLoggedIn, checkLogin }) {
   useEffect(() => {
     if (window.localStorage.getItem("token")) {
-      setCheck(true);
+      checkLogin();
     }
   }, [window.localStorage.getItem("token")]);
 
+  console.log(isLoggedIn);
   return (
     <Router>
       <Switch>
-        <Route exact path="/dashboard" component={Dashboard} />
-        <Route exact path="/" component={Homepage} />
-        <Route exact path="/login" component={Login} />
+        {isLoggedIn ? (
+          <Route exact path="/" component={Dashboard} />
+        ) : (
+          <>
+            {" "}
+            <Route exact path="/" component={Homepage} />
+            <Route exact path="/login" component={Login} />
+          </>
+        )}
+        <Route path="*">
+          <Redirect to="/" />
+        </Route>
       </Switch>
     </Router>
   );
@@ -33,4 +42,4 @@ const mapStateToProps = (state) => ({
   isLoggedIn: state.authReducer.isLoggedIn,
 });
 
-export default connect(mapStateToProps, null)(App);
+export default connect(mapStateToProps, { checkLogin })(App);

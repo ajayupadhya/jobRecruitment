@@ -21,13 +21,17 @@ const Login = ({ userLogin, isLoggedIn }) => {
 
   const login = async (e) => {
     e.preventDefault();
-    console.log("login");
+
     let body = {
       email,
       password,
     };
-    await userLogin(body, () => <Redirect to="/dashboard" />);
+    await userLogin(body);
   };
+
+  if (isLoggedIn) {
+    <Redirect to="/" />;
+  }
   return (
     <>
       <div className="login__container">

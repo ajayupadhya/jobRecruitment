@@ -7,6 +7,8 @@ import { connect } from "react-redux";
 import DashboardCards from "../../component/dashboardCards/DashboardCards";
 import { MdOutlineArrowLeft, MdOutlineArrowRight } from "react-icons/md";
 import Individual from "../../component/individualJob/Individual";
+import Empty from "../../assets/writing.svg";
+
 const Dashboard = ({ postedData, postedJobData }) => {
   useEffect(async () => {
     await postedJobData("");
@@ -49,7 +51,7 @@ const Dashboard = ({ postedData, postedJobData }) => {
     setModal(!modal);
   };
 
-  console.log(id);
+  console.log(postedData);
 
   return (
     <div className="dashboard__container">
@@ -62,70 +64,78 @@ const Dashboard = ({ postedData, postedJobData }) => {
         <h2>Jobs Posted by you</h2>
       </div>
 
-      <div className="dashboard__lower">
-        <div className="dashboard__lower__cards">
-          {postedData?.data?.map((item) => {
-            return (
-              <DashboardCards
-                item={item}
-                key={item.id}
-                singleId={(id) => openModal(id)}
-              />
-            );
-          })}
-        </div>
-
-        <div className="pagination">
-          <div
-            onClick={() => leftShift()}
-            style={
-              selectedPage === -1
-                ? {
-                    backgroundColor: "#CBE8FF",
-                    border: "none",
-                    borderRadius: 5,
-                  }
-                : null
-            }
-          >
-            <MdOutlineArrowLeft size={20} />
+      {"data" in postedData ? (
+        <div className="dashboard__lower">
+          <div className="dashboard__lower__cards">
+            {postedData?.data?.data?.map((item) => {
+              return (
+                <DashboardCards
+                  item={item}
+                  key={item.id}
+                  singleId={(id) => openModal(id)}
+                />
+              );
+            })}
           </div>
-          {page.map((item, index) => {
-            return (
-              <div
-                key={index}
-                onClick={() => middleShift(index)}
-                style={
-                  selectedPage === index + 1
-                    ? {
-                        backgroundColor: "#CBE8FF",
-                        border: "none",
-                        borderRadius: 5,
-                      }
-                    : null
-                }
-              >
-                {item}
-              </div>
-            );
-          })}
 
-          <div
-            onClick={() => righShift()}
-            style={
-              selectedPage === -2
-                ? {
-                    backgroundColor: "#CBE8FF",
-                    border: "none",
-                    borderRadius: 5,
+          <div className="pagination">
+            <div
+              onClick={() => leftShift()}
+              style={
+                selectedPage === -1
+                  ? {
+                      backgroundColor: "#CBE8FF",
+                      border: "none",
+                      borderRadius: 5,
+                    }
+                  : null
+              }
+            >
+              <MdOutlineArrowLeft size={20} />
+            </div>
+            {page.map((item, index) => {
+              return (
+                <div
+                  key={index}
+                  onClick={() => middleShift(index)}
+                  style={
+                    selectedPage === index + 1
+                      ? {
+                          backgroundColor: "#CBE8FF",
+                          border: "none",
+                          borderRadius: 5,
+                        }
+                      : null
                   }
-                : null
-            }
-          >
-            <MdOutlineArrowRight size={20} />
+                >
+                  {item}
+                </div>
+              );
+            })}
+
+            <div
+              onClick={() => righShift()}
+              style={
+                selectedPage === -2
+                  ? {
+                      backgroundColor: "#CBE8FF",
+                      border: "none",
+                      borderRadius: 5,
+                    }
+                  : null
+              }
+            >
+              <MdOutlineArrowRight size={20} />
+            </div>
           </div>
         </div>
-      </div>
+      ) : (
+        <div className="empty__container">
+          <img src={Empty} />
+          <p>Your posted jobs will show here!</p>
+        </div>
+      )}
+
       {modal && <Individual id={id} close={() => setModal(false)} />}
     </div>
   );

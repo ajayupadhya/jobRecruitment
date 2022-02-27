@@ -64,3 +64,22 @@
   border-radius: 5px;
   cursor: pointer;
 }
+
+.empty__container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: calc(100vh - 230px);
+  background-color: #edf6ff;
+  flex-direction: column;
+}
+
+.empty__container > p {
+  color: var(--primary-color);
+  text-align: center;
+  font-size: 20px;
+  letter-spacing: 0px;
+  margin-top: 15px;
+  opacity: 0.8;
+}

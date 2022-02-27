@@ -1,19 +1,24 @@
 import axios from "axios";
-import { ERROR, LOGIN, POSTED_DATA, POSTED_ONE_DATA } from "../constants";
+import {
+  ERROR,
+  LOGIN,
+  POSTED_DATA,
+  POSTED_ONE_DATA,
+  LOGOUT,
+  CHECK,
+} from "../constants";
 
-export const userLogin = (body, callback) => async (dispatch) => {
+export const userLogin = (body) => async (dispatch) => {
   try {
     const { data } = await axios.post(
       `${process.env.REACT_APP_BASE_URL}/auth/login`,
       body
     );
-    console.log(data);
+
     localStorage.setItem("token", data.data.token);
     localStorage.setItem("user", JSON.stringify(data.data));
     dispatch({ type: LOGIN, payload: data.data });
-    callback();
   } catch (error) {
-    console.log(error.response.data.message);
     dispatch({ type: ERROR, payload: error.response.data.message });
   }
 };
@@ -30,9 +35,8 @@ export const postedJobData = (query) => async (dispatch) => {
       }
     );
 
-    dispatch({ type: POSTED_DATA, payload: data.data });
+    dispatch({ type: POSTED_DATA, payload: data });
   } catch (error) {
-    console.log(error.response.data.message);
     dispatch({ type: ERROR, payload: error.response.data.message });
   }
 };
@@ -49,9 +53,18 @@ export const postedOneJobData = (query) => async (dispatch) => {
       }
     );
 
-    dispatch({ type: POSTED_ONE_DATA, payload: data.data });
+    dispatch({ type: POSTED_ONE_DATA, payload: data });
   } catch (error) {
-    console.log(error.response.data.message);
     dispatch({ type: ERROR, payload: error.response.data.message });
   }
+};
+
+export const logout = () => async (dispatch) => {
+  window.localStorage.removeItem("token");
+  window.localStorage.removeItem("user");
+  dispatch({ type: LOGOUT, payload: false });
+};
+
+export const checkLogin = () => async (dispatch) => {
+  dispatch({ type: CHECK, payload: true });
 };

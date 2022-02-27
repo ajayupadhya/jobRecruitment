@@ -4,6 +4,7 @@ import {
   ERROR,
   POSTED_DATA,
   POSTED_ONE_DATA,
+  CHECK,
 } from "../constants/index";
 
 const user = {
@@ -39,6 +40,17 @@ export const authReducer = (state = user, action) => {
       return {
         ...state,
         postedOneData: action.payload,
+      };
+
+    case LOGOUT:
+      return {
+        isLoggedIn: action.payload,
+      };
+
+    case CHECK:
+      return {
+        ...state,
+        isLoggedIn: action.payload,
       };
     default:
       return state;

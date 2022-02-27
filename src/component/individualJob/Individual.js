@@ -4,11 +4,13 @@ import { connect } from "react-redux";
 import { postedOneJobData } from "../../redux/action/authAction";
 import IndividualCards from "../individualCards/IndividualCards";
 import "./Individual.css";
+import Empty from "../../assets/writing.svg";
 const Individual = ({ id, postedOneData, postedOneJobData, close }) => {
   useEffect(async () => {
     await postedOneJobData(`/${id}/candidates`);
   }, []);
 
+  console.log(postedOneData);
   return (
     <div className="individual__container">
       <div className="individual__head">
@@ -20,11 +22,19 @@ const Individual = ({ id, postedOneData, postedOneJobData, close }) => {
         />
       </div>
       <h4>Total {postedOneData?.length} applicants</h4>
-      <div className="individual__container__cards">
-        {postedOneData?.map((item) => (
-          <IndividualCards item={item} />
-        ))}
-      </div>
+
+      {"data" in postedOneData ? (
+        <div className="individual__container__cards">
+          {postedOneData?.data?.map((item, index) => (
+            <IndividualCards item={item} key={index} />
+          ))}
+        </div>
+      ) : (
+        <div className="empty">
+          <img src={Empty} />
+          <p>No applications available!</p>
+        </div>
+      )}
     </div>
   );
 };
