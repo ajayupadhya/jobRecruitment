@@ -10,6 +10,7 @@ import idea from "../../assets/ideaa.png";
 import liva from "../../assets/liva.png";
 import velocity from "../../assets/velocity-9.png";
 import solaytic from "../../assets/solaytic.png";
+import { Link } from "react-router-dom";
 const cardData = [
   {
     heading: "Get More Visibility",
@@ -33,8 +34,13 @@ const Homepage = () => {
     <div className="homepage__container">
       <header className="homepage__header">
         <div className="homepage__header__top">
-          <img src={Logo} alt="logo" />
-          <button>Login/Signup</button>
+          <Link to="/" className="homepage__header__top__logo">
+            <img src={Logo} alt="logo" />
+          </Link>
+
+          <Link className="homepage__header__top__login" to="/login">
+            Login/Signup
+          </Link>
         </div>
 
         <div className="homepage__header__bottom">
@@ -56,9 +62,12 @@ const Homepage = () => {
         <div className="homepage__section__why__us">
           <h3>Why Us</h3>
           <div className="homepage__section__why__us__cards">
-            {cardData.map((item) => {
+            {cardData.map((item, index) => {
               return (
-                <div className="homepage__section__why__us__single__card">
+                <div
+                  className="homepage__section__why__us__single__card"
+                  key={index}
+                >
                   <h3>{item.heading}</h3>
                   <p>{item.content}</p>
                 </div>
