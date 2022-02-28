@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import "./Login.css";
 import { userLogin } from "../../redux/action/authAction";
 import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
-const Login = ({ userLogin, isLoggedIn }) => {
+const Login = ({ userLogin, isLoggedIn, error }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -32,6 +32,8 @@ const Login = ({ userLogin, isLoggedIn }) => {
   if (isLoggedIn) {
     <Redirect to="/" />;
   }
+
+  console.log(error);
   return (
     <>
       <div className="login__container">
@@ -44,6 +46,7 @@ const Login = ({ userLogin, isLoggedIn }) => {
               placeholder="Enter your email"
               value={email}
               onChange={(e) => handleEmail(e)}
+              style={error ? { border: "2px solid red" } : null}
             />
           </div>
           <div className="login__card__password">
@@ -57,7 +60,20 @@ const Login = ({ userLogin, isLoggedIn }) => {
               value={password}
               type="password"
               onChange={(e) => setPassword(e.target.value)}
+              style={error ? { border: "2px solid red" } : null}
             />
+            {error ? (
+              <p
+                style={{
+                  alignSelf: "flex-end",
+                  color: "red",
+                  fontSize: 14,
+                  marginTop: 5,
+                }}
+              >
+                {error}
+              </p>
+            ) : null}
           </div>
           <button onClick={(e) => login(e)}>Login</button>
           <p>
@@ -72,6 +88,7 @@ const Login = ({ userLogin, isLoggedIn }) => {
 
 const mapStateToProps = (state) => ({
   isLoggedIn: state.authReducer.isLoggedIn,
+  error: state.authReducer.error,
 });
 
 export default connect(mapStateToProps, { userLogin })(Login);
