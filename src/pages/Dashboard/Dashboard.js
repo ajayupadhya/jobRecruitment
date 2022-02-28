@@ -51,7 +51,7 @@ const Dashboard = ({ postedData, postedJobData }) => {
     setModal(!modal);
   };
 
-  console.log(postedData);
+
 
   return (
     <div className="dashboard__container">

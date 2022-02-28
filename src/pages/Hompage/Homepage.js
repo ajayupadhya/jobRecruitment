@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Homepage.css";
 import Logo from "../../assets/MyJobs.svg";
 import homepageImage from "../../assets/Screenshot 2020-09-21 at 2.06.52 PM.png";
@@ -11,6 +11,9 @@ import liva from "../../assets/liva.png";
 import velocity from "../../assets/velocity-9.png";
 import solaytic from "../../assets/solaytic.png";
 import { Link } from "react-router-dom";
+import { ImCross } from "react-icons/im";
+import { connect } from "react-redux";
+import { closeLogout } from "../../redux/action/authAction";
 const cardData = [
   {
     heading: "Get More Visibility",
@@ -29,7 +32,8 @@ const cardData = [
   },
 ];
 
-const Homepage = () => {
+const Homepage = ({ logoutMessage, closeLogout }) => {
+
   return (
     <div className="homepage__container">
       <header className="homepage__header">
@@ -41,6 +45,21 @@ const Homepage = () => {
           <Link className="homepage__header__top__login" to="/login">
             Login/Signup
           </Link>
+
+          {logoutMessage ? (
+            <div className="logout__message">
+              <div className="logout__message__upper">
+                <p>Logout</p>
+                <ImCross
+                  onClick={() => closeLogout()}
+                  style={{ cursor: "pointer" }}
+                  size={15}
+                  color="#303f60"
+                />
+              </div>
+              <p>You have successfully logged out.</p>
+            </div>
+          ) : null}
         </div>
 
         <div className="homepage__header__bottom">
@@ -98,4 +117,8 @@ const Homepage = () => {
   );
 };
 
-export default Homepage;
+const mapStateToProps = (state) => ({
+  logoutMessage: state.authReducer.logoutMessage,
+});
+
+export default connect(mapStateToProps, { closeLogout })(Homepage);

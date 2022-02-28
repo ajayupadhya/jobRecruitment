@@ -33,7 +33,6 @@ const Login = ({ userLogin, isLoggedIn, error }) => {
     <Redirect to="/" />;
   }
 
-  console.log(error);
   return (
     <>
       <div className="login__container">

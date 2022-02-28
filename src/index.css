@@ -9,6 +9,11 @@
   padding: 0;
   box-sizing: border-box;
 }
+/* 
+body {
+  max-width: 1440px;
+  margin: 0 auto;
+} */
 h1,
 h2,
 h3,
@@ -28,5 +33,10 @@ div {
 
 a {
   text-decoration: none;
+  border: none;
+}
+
+button {
+  outline: none;
   border: none;
 }

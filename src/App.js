@@ -17,7 +17,7 @@ function App({ isLoggedIn, checkLogin }) {
     }
   }, [window.localStorage.getItem("token")]);
 
-  console.log(isLoggedIn);
+
   return (
     <Router>
       <Switch>

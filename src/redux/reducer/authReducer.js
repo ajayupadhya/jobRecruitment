@@ -5,6 +5,7 @@ import {
   POSTED_DATA,
   POSTED_ONE_DATA,
   CHECK,
+  LOGOUT_CLOSE,
 } from "../constants/index";
 
 const user = {
@@ -13,6 +14,7 @@ const user = {
   user: {},
   postedData: {},
   postedOneData: {},
+  logoutMessage: false,
 };
 
 export const authReducer = (state = user, action) => {
@@ -43,14 +45,18 @@ export const authReducer = (state = user, action) => {
       };
 
     case LOGOUT:
-      return {
-        isLoggedIn: action.payload,
-      };
+      return { ...state, isLoggedIn: action.payload, logoutMessage: true };
 
     case CHECK:
       return {
         ...state,
         isLoggedIn: action.payload,
+      };
+
+    case LOGOUT_CLOSE:
+      return {
+        ...state,
+        logoutMessage: action.payload,
       };
     default:
       return state;

@@ -10,7 +10,7 @@ const Individual = ({ id, postedOneData, postedOneJobData, close }) => {
     await postedOneJobData(`/${id}/candidates`);
   }, []);
 
-  console.log(postedOneData);
+
   return (
     <div className="individual__container">
       <div className="individual__head">

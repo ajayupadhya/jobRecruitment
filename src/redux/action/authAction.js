@@ -6,6 +6,7 @@ import {
   POSTED_ONE_DATA,
   LOGOUT,
   CHECK,
+  LOGOUT_CLOSE
 } from "../constants";
 
 export const userLogin = (body) => async (dispatch) => {
@@ -67,4 +68,8 @@ export const logout = () => async (dispatch) => {
 
 export const checkLogin = () => async (dispatch) => {
   dispatch({ type: CHECK, payload: true });
+};
+
+export const closeLogout = () => async (dispatch) => {
+  dispatch({ type: LOGOUT_CLOSE, payload: false });
 };
