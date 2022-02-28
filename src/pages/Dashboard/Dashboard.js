@@ -15,7 +15,7 @@ const Dashboard = ({ postedData, postedJobData }) => {
   }, []);
 
   const [page, setpage] = useState([1, 2, 3]);
-  const [selectedPage, setselectedPage] = useState();
+  const [selectedPage, setselectedPage] = useState(1);
   const [modal, setModal] = useState(false);
   const [id, setId] = useState();
 
@@ -24,20 +24,26 @@ const Dashboard = ({ postedData, postedJobData }) => {
       let arr = page;
       arr.unshift(page[0] - 1);
       arr.pop();
-      setselectedPage(-1);
+      setselectedPage(arr[0]);
       setpage([...arr]);
       await postedJobData(`?page=${arr[0]}`);
     }
   };
 
   const righShift = async () => {
-    const arr = page;
-    arr.shift(arr[0]);
-    arr.push(arr[1] + 1);
-    setselectedPage(-2);
-    setpage([...arr]);
+    let arr = page;
+    let maxPage = Math.floor(
+      postedData?.data?.metadata?.count / postedData?.data?.metadata?.limit
+    );
+    if (arr[2] <= maxPage) {
+      const arr = page;
+      arr.shift(arr[0]);
+      arr.push(arr[1] + 1);
+      setselectedPage(arr[2]);
+      setpage([...arr]);
 
-    await postedJobData(`?page=${arr[2]}`);
+      await postedJobData(`?page=${arr[2]}`);
+    }
   };
 
   const middleShift = async (index) => {
@@ -50,8 +56,6 @@ const Dashboard = ({ postedData, postedJobData }) => {
     setId(id);
     setModal(!modal);
   };
-
-
 
   return (
     <div className="dashboard__container">
@@ -81,15 +85,15 @@ const Dashboard = ({ postedData, postedJobData }) => {
           <div className="pagination">
             <div
               onClick={() => leftShift()}
-              style={
-                selectedPage === -1
-                  ? {
-                      backgroundColor: "#CBE8FF",
-                      border: "none",
-                      borderRadius: 5,
-                    }
-                  : null
-              }
+              // style={
+              //   selectedPage === -1
+              //     ? {
+              //         backgroundColor: "#CBE8FF",
+              //         border: "none",
+              //         borderRadius: 5,
+              //       }
+              //     : null
+              // }
             >
               <MdOutlineArrowLeft size={20} />
             </div>
@@ -99,7 +103,7 @@ const Dashboard = ({ postedData, postedJobData }) => {
                   key={index}
                   onClick={() => middleShift(index)}
                   style={
-                    selectedPage === index + 1
+                    selectedPage === page[index]
                       ? {
                           backgroundColor: "#CBE8FF",
                           border: "none",
@@ -115,15 +119,15 @@ const Dashboard = ({ postedData, postedJobData }) => {
 
             <div
               onClick={() => righShift()}
-              style={
-                selectedPage === -2
-                  ? {
-                      backgroundColor: "#CBE8FF",
-                      border: "none",
-                      borderRadius: 5,
-                    }
-                  : null
-              }
+              // style={
+              //   selectedPage === -2
+              //     ? {
+              //         backgroundColor: "#CBE8FF",
+              //         border: "none",
+              //         borderRadius: 5,
+              //       }
+              //     : null
+              // }
             >
               <MdOutlineArrowRight size={20} />
             </div>
