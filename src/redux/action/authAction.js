@@ -6,7 +6,7 @@ import {
   POSTED_ONE_DATA,
   LOGOUT,
   CHECK,
-  LOGOUT_CLOSE
+  LOGOUT_CLOSE,
 } from "../constants";
 
 export const userLogin = (body) => async (dispatch) => {
@@ -20,7 +20,13 @@ export const userLogin = (body) => async (dispatch) => {
     localStorage.setItem("user", JSON.stringify(data.data));
     dispatch({ type: LOGIN, payload: data.data });
   } catch (error) {
-    dispatch({ type: ERROR, payload: error.response.data.message });
+    console.log(error.response.data);
+    if ("errors" in error.response.data) {
+      dispatch({ type: ERROR, payload: error.response.data.errors[0].email });
+    }
+    if ("message" in error.response.data) {
+      dispatch({ type: ERROR, payload: error.response.data.message });
+    }
   }
 };
 
@@ -30,7 +36,7 @@ export const postedJobData = (query) => async (dispatch) => {
       `${process.env.REACT_APP_BASE_URL}/recruiters/jobs${query}`,
       {
         headers: {
-          "Content-Type": "Aplication/json",
+          "Content-Type": "Application/json",
           Authorization: `${window.localStorage.getItem("token")}`,
         },
       }
